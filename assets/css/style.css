@@ -250,18 +250,6 @@ h6 {
   background-size: cover;
 }
 
-@media screen and (min-width: 769px) {
-  .bgImage {
-    background: url("../img/background_img.JPG");
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .bgImage {
-    background: url("../img/background_img.JPG");
-  }
-}
-
 #hero:before {
   content: "";
   background: rgba(5, 13, 24, 0.3);
