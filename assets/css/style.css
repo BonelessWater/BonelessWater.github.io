@@ -241,15 +241,28 @@ h6 {
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
-
-#hero {
-  width: 100%;
-  height: 100vh;
-  background: url("../img/background_img.JPG") top center;
-  background-repeat: no-repeat;
-  background-position: 0px -300px;
-  background-size: cover;
+@media (max-width: 1999) {
+  #hero {
+    width: 100%;
+    height: 100vh;
+    background: url("../img/background_img.JPG") top center;
+    background-repeat: no-repeat;
+    background-position: 0px;
+    background-size: cover;
+  }
 }
+
+@media (min-width: 1999) {
+  #hero {
+    width: 100%;
+    height: 100vh;
+    background: url("../img/background_img.JPG") top center;
+    background-repeat: no-repeat;
+    background-position: 0px -300px;
+    background-size: cover;
+  }
+}
+
 
 
 #hero:before {
