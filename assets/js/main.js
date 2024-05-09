@@ -269,3 +269,8 @@ const constraints = {
              alert(errorMessage);
          }
      }, false);
+
+if (screen.width < 1200){
+  document.getElementById("hero").style.background_position="0px";
+
+}
