@@ -247,7 +247,7 @@ h6 {
   height: 100vh;
   background: url("../img/background_img.JPG") top center;
   background-repeat: no-repeat;
-  background-position: 0px -300px;
+  background-position: 300px -300px;
   background-size: cover;
 }
 
