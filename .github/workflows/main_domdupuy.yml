@@ -21,14 +21,12 @@ jobs:
           node-version: '22.x'
 
       - name: npm install and build
-        working-directory: ./backend
         run: |
           npm install
           npm run build --if-present
 
       - name: Zip artifact for deployment
-        working-directory: ./backend
-        run: zip -r ../release.zip .
+        run: zip -r release.zip .
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -50,7 +48,7 @@ jobs:
           name: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip -d backend
+        run: unzip release.zip -d .
 
       - name: Azure CLI login
         run: |
@@ -61,4 +59,4 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'domdupuy'
-          package: ./backend
+          package: .
