@@ -6,7 +6,6 @@ const nodemailer = require('nodemailer');
 
 const app = express();
 const port = process.env.PORT || 8080;
-app.listen(port, () => console.log(`Server listening on port ${port}`));
 
 // Ensure Express trusts the proxy so req.ip returns the correct IP
 app.set('trust proxy', true);
