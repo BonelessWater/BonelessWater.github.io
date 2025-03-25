@@ -56,6 +56,9 @@
         </ul>
       </nav><!-- .nav-menu -->
     </div>
+    <div id="visitor-counter" style="color: white; margin-top: 10px;">
+      Visitors: <span id="visitor-count">0</span>
+    </div>
   </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
@@ -460,11 +463,54 @@
   <!-- Template Main JS File -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/data.js"></script>
   <script>
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        // Fetch the user's public IP
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
+        const publicIp = ipData.ip;
 
+        // Get the current URL's source parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const source = urlParams.get('source');
 
+        // Update IP with the source parameter
+        await fetch('/update-ip' + (source ? `?source=${source}` : ''), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ip: publicIp })
+        });
 
+        // Fetch the visitor count
+        const countResponse = await fetch('/get-count');
+        const countData = await countResponse.json();
+        document.getElementById('visitor-count').innerText = countData.count;
+      } catch (err) {
+        console.error("Error updating visitor counter:", err);
+      }
+    });
   </script>
+  <script>
+    app.get('/get-count', (req, res) => {
+      const csvFilePath = path.join(__dirname, 'user_data.csv');
+      if (!fs.existsSync(csvFilePath)) {
+        return res.json({ count: 0 });
+      }
+      fs.readFile(csvFilePath, "utf8", (err, data) => {
+        if (err) {
+          console.error("Error reading user_data.csv:", err);
+          return res.status(500).json({ error: "Error reading data" });
+        }
+        // Split into lines, filter out empty lines, and subtract 1 for the header
+        const lines = data.split("\n").filter(line => line.trim() !== "");
+        const entryCount = Math.max(0, lines.length - 1); // Ensure count is never negative
+        res.json({ count: entryCount });
+      });
+    });
+  </script>
+  
   
 </body>
 
