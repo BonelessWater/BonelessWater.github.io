@@ -1,3 +1,4 @@
 node_modules
 .env
+.vscode
 user_data.csv
