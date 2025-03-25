@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write  # This is crucial for OIDC authentication
 
     steps:
       - uses: actions/checkout@v4
@@ -43,9 +42,6 @@ jobs:
     environment: 
       name: Production
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write  # Explicitly set write permissions
-      contents: read
 
     steps:
       - name: Download artifact from build job
@@ -56,23 +52,13 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip -d backend
 
-      - name: Azure CLI login debug
+      - name: Azure CLI login
         run: |
-          echo "Debugging Azure login"
-          echo "Client ID: ${{ secrets.AZUREAPPSERVICE_CLIENTID_F26A61EBAACB4C06BA9336B540DEB813 }}"
-          echo "Tenant ID: ${{ secrets.AZUREAPPSERVICE_TENANTID_C8D9B8BDAB8141E1B7FEB5F0B3215D9C }}"
-
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_F26A61EBAACB4C06BA9336B540DEB813 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C8D9B8BDAB8141E1B7FEB5F0B3215D9C }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5ADF012E2581472881CEFEECEA95AD2E }}
+          az login
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'domdupuy'
-          slot-name: 'Production'
           package: ./backend
