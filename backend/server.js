@@ -5,8 +5,8 @@ const path = require('path');
 const nodemailer = require('nodemailer');
 
 const app = express();
-// Use PORT from environment variable, defaulting to 8080 for Azure Web Apps
 const port = process.env.PORT || 8080;
+app.listen(port, () => console.log(`Server listening on port ${port}`));
 
 // Ensure Express trusts the proxy so req.ip returns the correct IP
 app.set('trust proxy', true);
