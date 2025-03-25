@@ -18,6 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set working directory
+        run: cd backend
+
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
