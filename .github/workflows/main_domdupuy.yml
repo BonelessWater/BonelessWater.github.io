@@ -13,20 +13,24 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '22.x'
+
+      - name: Create README and LICENSE if not exists
+        working-directory: ./backend
+        run: |
+          touch README.md
+          touch LICENSE
+          echo "# Backend Application" > README.md
+          echo "MIT License" > LICENSE
 
       - name: npm install and prepare deployment
         working-directory: ./backend
         run: |
-          npm install
-          cp ../README.md .
-          cp ../LICENSE .
-          cp package.json .
-          cp server.js .
-          cp index.js .
-          cp -r node_modules .
+          npm ci
+          rm -rf .git .github .gitignore
+          rm -rf node_modules/*/test node_modules/*/tests node_modules/*/docs node_modules/*/examples
 
       - name: Zip deployment package
         working-directory: ./backend
