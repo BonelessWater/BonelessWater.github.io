@@ -21,7 +21,12 @@ jobs:
         working-directory: ./backend
         run: |
           npm install
-          npm run build --if-present
+          cp ../README.md .
+          cp ../LICENSE .
+          cp package.json .
+          cp server.js .
+          cp index.js .
+          cp -r node_modules .
 
       - name: Zip deployment package
         working-directory: ./backend
